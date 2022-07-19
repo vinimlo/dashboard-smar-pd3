@@ -1,12 +1,9 @@
-import time
 import sys
 from asyncua import Client
-import asyncio
 import csv
-from datetime import date, datetime
-sys.path.insert(0, "..")
+from datetime import datetime
 
-level_array = []
+sys.path.insert(0, "..")
 
 
 def write_to_csv(level_value):
@@ -20,11 +17,11 @@ def write_to_csv(level_value):
 
 class LevelHandler(object):
     def datachange_notification(self, node, value, data):
-        write_to_csv(value)
+        # write_to_csv(value)
         print(f"New value: {round(value, 1)}")
 
 
-async def main():
+async def read_opc_variables():
     client = Client("opc.tcp://localhost:4840")
     async with client:
         root = client.get_root_node()
@@ -43,8 +40,5 @@ async def main():
         level_handle = await level_sub.subscribe_data_change(py_level)
 
         level_value = await client.get_node("ns=2;i=3").get_value()
-        await asyncio.Future()
 
-
-if __name__ == "__main__":
-    asyncio.run(main())
+        return level_value
