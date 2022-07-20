@@ -22,14 +22,14 @@ if __name__ == "__main__":
     server.start()
 
     try:
-        count = 15.0
+        count = 5.0
         while True:
-            time.sleep(5)
-            if(count < 20.0):
+            time.sleep(1)
+            if(count < 99.5):
                 py_level.set_value(count)
-                count += 0.2
+                count += 0.5
             else:
-                count = 15.0
+                count = 5.0
             py_temperature.set_value(26.72)
     finally:
         print("Stopping")
