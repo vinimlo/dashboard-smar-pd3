@@ -1,19 +1,16 @@
+import asyncio
 from aiohttp import web
 import socketio
 from client import read_opc_variables
 
-_socket = socketio.AsyncServer(async_mode='aiohttp')
+_socket = socketio.AsyncServer(async_mode='aiohttp', cors_allowed_origins='*')
 app = web.Application()
 _socket.attach(app)
 
 
-async def index(request):
-    with open('index.html') as f:
-        return web.Response(text=f.read(), content_type='text/html')
-
-
 @_socket.event
 def connect(sid, environ):
+    _socket.enter_room(sid=sid, room='level')
     print("connect ", sid)
 
 
@@ -25,11 +22,9 @@ def disconnect(sid):
 @_socket.event
 async def request_level_value(sid):
     level_value = await read_opc_variables()
-    await _socket.emit('send_level_value', {'value': round(level_value, 1)}, room=sid)
-
-
-app.router.add_get('/', index)
+    await asyncio.sleep(1)
+    await _socket.emit('send_level_value', {'value': round(level_value, 1)}, room='level')
 
 
 if __name__ == "__main__":
-    web.run_app(app)
+    web.run_app(app, port="4113")
