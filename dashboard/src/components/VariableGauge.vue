@@ -1,6 +1,8 @@
 <template>
-  <div id="chart">
-    <apexchart type="radialBar" :options="chartOptions" :series="[level_value]"></apexchart>
+  <div class="gauge-item">
+    <div id="chart">
+      <apexchart type="radialBar" :options="chartOptions" :series="[variableValue]"></apexchart>
+    </div>
   </div>
 </template>
 
@@ -9,16 +11,16 @@ import { defineComponent } from 'vue';
 import SocketIOService from '../services/socketio.service';
 
 export default defineComponent({
-  name: 'LevelValue',
+  name: 'VariableGauge',
   props: {
-    timeInSeconds: {
-      type: Number,
-      default: 0
+    variableToRead: {
+      type: String,
+      default: 'level'
     }
   },
   data() {
     return {
-      level_value: 0,
+      variableValue: 0,
       chartOptions: {
         chart: {
           type: 'radialBar',
@@ -46,10 +48,10 @@ export default defineComponent({
             },
             dataLabels: {
               name: {
-                show: false
+                show: true,
               },
               value: {
-                offsetY: -2,
+                offsetY: -50,
                 fontSize: '22px'
               }
             }
@@ -71,24 +73,24 @@ export default defineComponent({
             stops: [0, 50, 53, 91]
           },
         },
-        labels: ['Average Results'],
+        labels: [this.variableToRead.toUpperCase()],
       },
     }
   },
   created() {
-    SocketIOService.setupSocketConnection();
-    SocketIOService.requestLevel();
+    SocketIOService.setupSocketConnection(this.variableToRead);
+    SocketIOService.requestVariable(this.variableToRead);
   },
   mounted() {
-    this.getLevelValue();
+    this.getVariableValue();
   },
   beforeUnmount() {
     SocketIOService.disconnect();
   },
   methods: {
-    getLevelValue() {
+    getVariableValue() {
       setInterval(() => {
-        this.level_value = SocketIOService.level_value;
+        this.variableValue = SocketIOService.variableDict[this.variableToRead];
       }, 1000);
     }
   }
@@ -96,4 +98,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.gauge-item {
+  width: 400px;
+  height: auto;
+}
 </style>

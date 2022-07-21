@@ -2,18 +2,23 @@ import { io, Socket } from 'socket.io-client';
 
 class SocketIOService {
   socket: Socket;
-  level_value: number;
+  levelValue: number;
+  variableDict: Record<string, number> = {};
   
   constructor() {
-    this.level_value = 0;
+    this.levelValue = 0;
+    this.variableDict['level'] = 0;
+    this.variableDict['temperature'] = 0;
+    this.variableDict['flow'] = 0;
     this.socket = io('http://localhost:4113');
   }
 
-  async setupSocketConnection() {
-    this.socket.on('send_level_value', (data: {value: number}) => {
-      this.level_value = data.value;
-      console.log(data.value);
-      this.socket.emit('request_level_value')
+  async setupSocketConnection(variableToRead: string): Promise<void> {
+    this.socket.on(`send_${variableToRead}_value`, (data: {value: number}) => {
+      this.levelValue = data.value;
+      this.variableDict[variableToRead] = data.value;
+      console.log(this.variableDict[variableToRead]);
+      this.socket.emit(`request_${variableToRead}_value`)
     });
   }
   disconnect() {
@@ -21,11 +26,8 @@ class SocketIOService {
       this.socket.disconnect()
     }
   }
-  requestLevel() {
-    this.socket.emit('request_level_value');
-  }
-  test() {
-    return this.level_value;
+  requestVariable(variableToRead: string): void {
+    this.socket.emit(`request_${variableToRead}_value`);
   }
 }
 
