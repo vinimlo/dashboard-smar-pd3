@@ -20,6 +20,12 @@ export default defineComponent({
 </script>
 
 <style>
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1b213b;
+}
+
 .gauge-container {
   width: 100%;
   display: flex;

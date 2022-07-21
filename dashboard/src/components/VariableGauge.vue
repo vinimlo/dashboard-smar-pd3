@@ -27,6 +27,12 @@ export default defineComponent({
           offsetY: -20,
           sparkline: {
             enabled: true
+          },
+          fill: {
+            type: "gradient",
+            gradient: {
+              gradientToColors: ["#F55555", "#6078ea", "#6094ea"]
+            }
           }
         },
         plotOptions: {
@@ -34,25 +40,36 @@ export default defineComponent({
             startAngle: -90,
             endAngle: 90,
             track: {
-              background: "#e7e7e7",
-              strokeWidth: '97%',
-              margin: 5, // margin is in pixels
+              background: "#262d47",
+
+              strokeWidth: '80%',
+              margin: 3, // margin is in pixels
               dropShadow: {
-                enabled: true,
+                enabled: false,
                 top: 2,
                 left: 0,
-                color: '#999',
+                color: '#373737',
                 opacity: 1,
                 blur: 2
               }
             },
             dataLabels: {
+              enabled: true,
+              background: {
+                enabled: true,
+                foreColor: '#F2F2F2',
+              },
               name: {
                 show: true,
+                fontSize: '16px',
+                fontWeight: 600,
+                color: '#FFFFFF',
               },
               value: {
                 offsetY: -50,
-                fontSize: '22px'
+                fontSize: '22px',
+                fontWeight: 600,
+                color: '#FFFFFF',
               }
             }
           }
@@ -63,15 +80,20 @@ export default defineComponent({
           }
         },
         fill: {
-          type: 'gradient',
+          type: "gradient",
+          colors: [(this.variableToRead === 'temperature' ? '#f55854' : '#18e9d9')],
+          opacity: 0.9,
           gradient: {
-            shade: 'light',
-            shadeIntensity: 0.4,
-            inverseColors: false,
+            shade: 'dark',
+            type: "vertical",
+            shadeIntensity: 0.95,
+            gradientToColors: [(this.variableToRead === 'temperature' ? '#fccf31' : '#6078ea')],
+            inverseColors: true,
             opacityFrom: 1,
             opacityTo: 1,
-            stops: [0, 50, 53, 91]
-          },
+            stops: [0, 100],
+            colorStops: []
+          }
         },
         labels: [this.variableToRead.toUpperCase()],
       },
@@ -100,6 +122,10 @@ export default defineComponent({
 <style scoped>
 .gauge-item {
   width: 400px;
-  height: auto;
+  height: 225px;
+  display: flex;
+  align-items: center;
+  background-color: rgba(38, 45, 71, 0.35);
+  border-radius: 8px;
 }
 </style>
