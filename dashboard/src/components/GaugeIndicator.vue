@@ -11,16 +11,16 @@ import { defineComponent } from 'vue';
 import SocketIOService from '../services/socketio.service';
 
 export default defineComponent({
-  name: 'VariableGauge',
+  name: 'GaugeIndicator',
   props: {
     variableToRead: {
       type: String,
-      default: 'level'
+      default: ''
     }
   },
   data() {
     return {
-      variableValue: 0,
+      variableValue: 0 as boolean | number,
       chartOptions: {
         chart: {
           type: 'radialBar',
@@ -81,13 +81,13 @@ export default defineComponent({
         },
         fill: {
           type: "gradient",
-          colors: [(this.variableToRead === 'temperature' ? '#f55854' : '#18e9d9')],
+          colors: [(this.variableToRead.split('_')[0] === 'temperature' ? '#f55854' : this.variableToRead.split('_')[0] === 'level' ? '#18e9d9' : '#6590e8')],
           opacity: 0.9,
           gradient: {
             shade: 'dark',
             type: "vertical",
             shadeIntensity: 0.95,
-            gradientToColors: [(this.variableToRead === 'temperature' ? '#fccf31' : '#6078ea')],
+            gradientToColors: [(this.variableToRead.split('_')[0] === 'temperature' ? '#fccf31' : this.variableToRead.split('_')[0] === 'level' ? '#6078ea' : '#f02fc2')],
             inverseColors: true,
             opacityFrom: 1,
             opacityTo: 1,
@@ -95,7 +95,7 @@ export default defineComponent({
             colorStops: []
           }
         },
-        labels: [this.variableToRead.toUpperCase()],
+        labels: [this.variableToRead.split('_')[0].toUpperCase()],
       },
     }
   },
@@ -121,8 +121,8 @@ export default defineComponent({
 
 <style scoped>
 .gauge-item {
-  width: 400px;
-  height: 225px;
+  width: 350px;
+  height: 180px;
   display: flex;
   align-items: center;
   background-color: rgba(38, 45, 71, 0.35);
