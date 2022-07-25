@@ -3,12 +3,15 @@ from opcua import ua, Server
 import sys
 import time
 from random import randint
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 sys.path.insert(0, "..")
 
 if __name__ == "__main__":
     server = Server()
-    server.set_endpoint("opc.tcp://localhost:4840")
+    server.set_endpoint(os.getenv("OPC_SERVER_URI"))
     uri = "projetos-automacao"
     idx = server.register_namespace(uri)
     objects = server.get_objects_node()
@@ -21,7 +24,7 @@ if __name__ == "__main__":
     py_flow_2 = opc_obj.add_variable(idx, "Py_Flow_2", 5.00)
     # Add tank mock alarms
     py_alarm_panel = opc_obj.add_variable(idx, "Py_Alarm_Panel", True)
-    py_alarm_emergency = opc_obj.add_variable(idx, "Py_Alarm_Emergency", False)
+    py_alarm_emergency = opc_obj.add_variable(idx, "Py_Alarm_Emergency", True)
     py_alarm_low_level_1 = opc_obj.add_variable(idx, "Py_Alarm_Low_Level_1", True)
     py_alarm_high_temperature_1 = opc_obj.add_variable(idx, "Py_Alarm_High_Temperature_1", False)
     py_alarm_high_temperature_2 = opc_obj.add_variable(idx, "Py_Alarm_High_Temperature_2", False)

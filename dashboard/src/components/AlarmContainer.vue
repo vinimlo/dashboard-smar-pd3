@@ -33,7 +33,7 @@ export default defineComponent({
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 20px;
   justify-content: center;
   padding: 15px 0;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="alarm-wrapper">
+  <div class="alarm-wrapper" :class="isEmergency || isPanel">
     <h4>{{ alarmName }}</h4>
     <div class="alarm-item" :class="isAlarmOn">
       <p>{{ isAlarmOn.toUpperCase() }}</p>
@@ -14,13 +14,16 @@ import SocketIOService from '../services/socketio.service';
 export default defineComponent({
   name: 'AlarmIndicator',
   props: {
+
     alarmToRead: {
       type: String,
-      default: ''
+      default: '',
+      required: true
     },
     alarmName: {
       type: String,
-      default: ''
+      default: '',
+      required: true
     }
   },
   data() {
@@ -29,8 +32,14 @@ export default defineComponent({
     }
   },
   computed: {
-    isAlarmOn() {
+    isAlarmOn(): string {
       return this.alarmValue ? 'on' : 'off'
+    },
+    isEmergency(): string {
+      return this.alarmToRead.split('_')[1] === 'emergency' ? 'emergency-alarm' : ''
+    },
+    isPanel(): string {
+      return this.alarmToRead.split('_')[1] === 'panel' ? 'panel-alarm' : ''
     }
   },
   created() {
@@ -73,6 +82,25 @@ h4 {
   border-radius: 8px;
 }
 
+@keyframes flash-normal-alarm {
+  10% { background-color: var(--alarm-text); }
+  30% { background-color: var(--alarm-bg); }
+  50% { background-color: var(--alarm-text); }
+  70% { background-color: var(--alarm-bg); }
+  90% { background-color: var(--alarm-text); }
+  90% { background-color: var(--alarm-bg); }
+}
+
+@keyframes flash-emergency-alarm {
+  10% { background-color: #C62828; }
+  25% { background-color: var(--alarm-text); }
+  40% { background-color: #C62828; }
+  55% { background-color: var(--alarm-text); }
+  70% { background-color: #C62828; }
+  85% { background-color: var(--alarm-text); }
+  100% { background-color: #C62828; }
+}
+
 .alarm-item.off {
   --alarm-bg: #1b213b;
   --alarm-text: #F2F2F2;
@@ -81,6 +109,8 @@ h4 {
 .alarm-item.on {
   --alarm-bg: #F2F2F2;
   --alarm-text: #1b213b;
+  animation-name: flash-normal-alarm;
+  animation-duration: 1s;
 }
 
 .alarm-item {
@@ -90,6 +120,9 @@ h4 {
   background-color: var(--alarm-bg);
   border-radius: 50%;
   display: table;
+  transition: background-color;
+  transition-duration: 1s;
+  transition-timing-function: ease-in-out;
 }
 
 .alarm-item p {
@@ -99,4 +132,16 @@ h4 {
   color: var(--alarm-text);
   display: table-cell;
 }
+
+.emergency-alarm .alarm-item {
+  border-color: #C62828;
+}
+
+.emergency-alarm .alarm-item.on {
+  background-color: #C62828;
+  animation-name: flash-emergency-alarm;
+  animation-duration: 1.5s;
+}
+
+.panel-alarm {}
 </style>

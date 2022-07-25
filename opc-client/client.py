@@ -2,12 +2,15 @@ import sys
 from asyncua import Client
 import csv
 from datetime import datetime
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 sys.path.insert(0, "..")
 
 
 async def read_opc_variable(variable_to_read: str) -> float:
-    client = Client("opc.tcp://localhost:4840")
+    client = Client(os.getenv('OPC_SERVER_URI'))
     async with client:
         # root = client.get_root_node()
         # obj = await root.get_child(["0:Objects", "2:PyOPCObject"])
