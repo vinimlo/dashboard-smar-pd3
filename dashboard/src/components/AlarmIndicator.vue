@@ -56,7 +56,7 @@ export default defineComponent({
     getVariableValue() {
       setInterval(() => {
         this.alarmValue = SocketIOService.variableDict[this.alarmToRead];
-      }, 1000);
+      }, 500);
     }
   }
 });

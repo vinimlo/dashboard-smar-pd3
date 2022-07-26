@@ -113,7 +113,7 @@ export default defineComponent({
     getVariableValue() {
       setInterval(() => {
         this.variableValue = SocketIOService.variableDict[this.variableToRead];
-      }, 1000);
+      }, 500);
     }
   }
 });

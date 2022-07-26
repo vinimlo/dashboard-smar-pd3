@@ -13,6 +13,7 @@
       </AlarmContainer>
     </div>
     <div id="right-side">
+      <ControlPanel />
     </div>
   </section>
 </template>
@@ -21,12 +22,14 @@
 import { defineComponent } from 'vue';
 import GaugeContainer from './components/GaugeContainer.vue'
 import AlarmContainer from './components/AlarmContainer.vue'
+import ControlPanel from './components/ControlPanel.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
     GaugeContainer,
-    AlarmContainer
+    AlarmContainer,
+    ControlPanel
   },
 });
 </script>

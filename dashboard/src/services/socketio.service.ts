@@ -37,6 +37,9 @@ class SocketIOService {
   requestVariable(variableToRead: string): void {
     this.socket.emit(`request_${variableToRead}_value`);
   }
+  emitMessage(message: string): void {
+    this.socket.emit(message);
+  }
 }
 
 export default new SocketIOService();
