@@ -1,7 +1,5 @@
 import sys
 from asyncua import Client
-import csv
-from datetime import datetime
 import os
 from dotenv import load_dotenv
 
@@ -13,8 +11,8 @@ async def read_opc_variable(variable_to_read: str) -> float:
     client = Client(os.getenv('OPC_SERVER_URI'))
     async with client:
         # root = client.get_root_node()
-        # obj = await root.get_child(["0:Objects", "2:PyOPCObject"])
-        # py_level_1 = await root.get_child(["0:Objects", "2:PyOPCObject", "2:Py_Level_1"])
+        # obj = await root.get_child(["0:Objects", "2:Py_PD3_Objects"])
+        # py_level_1 = await root.get_child(["0:Objects", "2:Py_PD3_Objects", "2:Py_Level_1"])
         # print("Alarm Panel is: ", py_alarm_panel)
 
         variable_dict: dict = {
@@ -32,3 +30,12 @@ async def read_opc_variable(variable_to_read: str) -> float:
 
         variable_value = await client.get_node(variable_dict[variable_to_read]).get_value()
         return variable_value
+
+async def set_opc_variable(variable_to_set: str, value: any) -> None:
+    client = Client(os.getenv('OPC_SERVER_URI'))
+    async with client:
+        variable_dict: dict = {
+            'py_bomb_1': 'ns=2;i=12'
+        }
+
+        await client.get_node(variable_dict[variable_to_set]).write_value(value)
