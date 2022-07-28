@@ -9,6 +9,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import SocketIOService from '../services/socketio.service';
+import LineChart from './LineChart.vue';
 
 export default defineComponent({
   name: 'GaugeIndicator',
@@ -70,6 +71,9 @@ export default defineComponent({
                 fontSize: '22px',
                 fontWeight: 600,
                 color: '#FFFFFF',
+                formatter: (value: number) => {
+                  return value + ` ${this.measurementUnit}`
+                }
               }
             }
           }
@@ -95,8 +99,13 @@ export default defineComponent({
             colorStops: []
           }
         },
-        labels: [this.variableToRead.split('_')[0].toUpperCase()],
+        labels: [this.variableToRead.split('_').join(' ').toUpperCase()],
       },
+    }
+  },
+  computed: {
+    measurementUnit() {
+      return this.variableToRead.split('_')[0] === 'temperature' ? ' ºC' : this.variableToRead.split('_')[0] === 'level' ? ' %' : 'L/h'
     }
   },
   created() {
@@ -113,6 +122,11 @@ export default defineComponent({
     getVariableValue() {
       setInterval(() => {
         this.variableValue = SocketIOService.variableDict[this.variableToRead];
+        if(this.variableToRead === 'level_1') {
+          (this.$root?.$refs['lineChart'] as typeof LineChart).appendLevelValue(this.variableValue);
+        } else if(this.variableToRead === 'flow_1') {
+          (this.$root?.$refs['lineChart'] as typeof LineChart).appendFlowValue(this.variableValue);
+        }
       }, 500);
     }
   }

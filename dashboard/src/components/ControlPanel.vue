@@ -1,5 +1,9 @@
 <template>
-    <ControlButton />
+    <div class="btn-panel">
+        <ControlButton :controlBtnName="'Bomb 1'" :instrument="'bomb_1'" />
+        <ControlButton :controlBtnName="'Valve 1'" :instrument="'valve_1'" />
+        <ControlButton :controlBtnName="'Heater'" :instrument="'heater'" />
+    </div>
 </template>
 
 <script lang="ts">
@@ -15,4 +19,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.btn-panel {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+}
 </style>

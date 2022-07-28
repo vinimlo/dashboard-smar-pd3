@@ -83,40 +83,78 @@ h4 {
 }
 
 @keyframes flash-normal-alarm {
-  10% { background-color: var(--alarm-text); }
-  30% { background-color: var(--alarm-bg); }
-  50% { background-color: var(--alarm-text); }
-  70% { background-color: var(--alarm-bg); }
-  90% { background-color: var(--alarm-text); }
-  90% { background-color: var(--alarm-bg); }
+  10% {
+    background-color: var(--alarm-text);
+  }
+
+  30% {
+    background-color: var(--alarm-bg);
+  }
+
+  50% {
+    background-color: var(--alarm-text);
+  }
+
+  70% {
+    background-color: var(--alarm-bg);
+  }
+
+  90% {
+    background-color: var(--alarm-text);
+  }
+
+  90% {
+    background-color: var(--alarm-bg);
+  }
 }
 
 @keyframes flash-emergency-alarm {
-  10% { background-color: #C62828; }
-  25% { background-color: var(--alarm-text); }
-  40% { background-color: #C62828; }
-  55% { background-color: var(--alarm-text); }
-  70% { background-color: #C62828; }
-  85% { background-color: var(--alarm-text); }
-  100% { background-color: #C62828; }
+  10% {
+    background-color: #C62828;
+  }
+
+  25% {
+    background-color: var(--alarm-text);
+  }
+
+  40% {
+    background-color: #C62828;
+  }
+
+  55% {
+    background-color: var(--alarm-text);
+  }
+
+  70% {
+    background-color: #C62828;
+  }
+
+  85% {
+    background-color: var(--alarm-text);
+  }
+
+  100% {
+    background-color: #C62828;
+  }
 }
 
 .alarm-item.off {
   --alarm-bg: #1b213b;
-  --alarm-text: #F2F2F2;
+  --alarm-text: rgba(200, 200, 200, 1);
 }
 
 .alarm-item.on {
-  --alarm-bg: #F2F2F2;
+  --alarm-bg: #d32f2f;
   --alarm-text: #1b213b;
   animation-name: flash-normal-alarm;
   animation-duration: 1s;
+  border: 8px solid #d32f2f;
 }
 
 .alarm-item {
   width: 70px;
   height: 70px;
-  border: 8px solid #F2F2F2;
+  border: 8px solid rgba(200, 200, 200, 1);
   background-color: var(--alarm-bg);
   border-radius: 50%;
   display: table;
