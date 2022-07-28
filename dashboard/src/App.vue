@@ -2,18 +2,19 @@
   <section id="app-container">
     <div id="left-side">
       <GaugeContainer :variableItems="['temperature_1', 'level_1', 'flow_1']">
-        <h3>Tank 1</h3>
+        <!-- <h3>Tank 1</h3> -->
       </GaugeContainer>
       <GaugeContainer :variableItems="['temperature_2', 'flow_2']">
-        <h3>Tank 2</h3>
+        <!-- <h3>Tank 2</h3> -->
       </GaugeContainer>
-      <AlarmContainer
-        :alarmItems="['alarm_panel', 'alarm_emergency', 'alarm_low_level_1', 'alarm_high_temperature_1', 'alarm_high_temperature_2']">
-        <h3>Alarms</h3>
-      </AlarmContainer>
-    </div>
+      <LineChart ref="lineChart"></LineChart>
+      </div>
     <div id="right-side">
       <ControlPanel />
+      <AlarmContainer
+        :alarmItems="['alarm_low_level_1', 'alarm_high_temperature_1', 'alarm_high_temperature_2']">
+        <!-- <h3>Alarms</h3> -->
+      </AlarmContainer>
     </div>
   </section>
 </template>
@@ -23,14 +24,16 @@ import { defineComponent } from 'vue';
 import GaugeContainer from './components/GaugeContainer.vue'
 import AlarmContainer from './components/AlarmContainer.vue'
 import ControlPanel from './components/ControlPanel.vue'
+import LineChart from './components/LineChart.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
     GaugeContainer,
     AlarmContainer,
-    ControlPanel
-  },
+    ControlPanel,
+    LineChart
+},
 });
 </script>
 
@@ -55,6 +58,9 @@ h3 {
 
 #app-container {
   display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 30px;
 }
 
 #left-side {
@@ -63,6 +69,9 @@ h3 {
 
 #right-side {
   width: 25%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 @media only screen and (max-width: 1280px) {
@@ -71,14 +80,13 @@ h3 {
   }
   #left-side {
     transition: width;
-    transition-duration: 1s;
+    transition-duration: 0.5s;
     transition-timing-function: ease-in-out;
     width: 100%;
   }
   #right-side {
     transition: width;
-    transition-duration: 1s;
-    transition-delay: 1s;
+    transition-duration: 0.5s;
     transition-timing-function: ease-in-out;
     width: 100%;
   }
