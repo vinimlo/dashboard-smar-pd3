@@ -8,6 +8,8 @@ load_dotenv()
 sys.path.insert(0, "..")
 
 
+GAIN_CONSTANT = 5
+
 variable_dict: dict = {
     'level_1': 'ns=2;i=2',
     'temperature_1': 'ns=2;i=3',
@@ -52,7 +54,7 @@ async def increase_level_value(py_bomb_1, py_level_1, py_flow_1):
     py_flow_1_value = await py_flow_1.get_value()
 
     if((py_bomb_1_value == True) and (py_level_1_value < 100)):
-        value = py_level_1_value + (10 * (py_flow_1_value/100))
+        value = py_level_1_value + (GAIN_CONSTANT * (py_flow_1_value/100))
         await py_level_1.set_value(value)
         await py_flow_1.set_value(100 - value)
         await asyncio.sleep(1)
@@ -81,7 +83,7 @@ async def decrease_level_value(py_valve_1, py_level_1, py_flow_1):
     py_flow_1_value = await py_flow_1.get_value()
 
     if((py_valve_1_value == True) and (py_level_1_value > 0)):
-        value = py_level_1_value - (10 * (py_flow_1_value/100))
+        value = py_level_1_value - (GAIN_CONSTANT * (py_flow_1_value/100))
         await py_level_1.set_value(value)
         await py_flow_1.set_value(value)
         await asyncio.sleep(1)
@@ -123,7 +125,8 @@ async def activate_heater():
     async with client:
         py_heater = client.get_node(variable_dict['heater'])
         py_temperature_1 = client.get_node(variable_dict['temperature_1'])
-        py_alarm_low_level_1 = client.get_node(variable_dict['alarm_low_level_1'])
+        py_alarm_low_level_1 = client.get_node(
+            variable_dict['alarm_low_level_1'])
 
         await py_heater.set_value(True)
 

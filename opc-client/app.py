@@ -103,11 +103,13 @@ async def request_alarm_high_temperature_2_value(sid):
     await asyncio.sleep(0.5)
     await _socket.emit('send_alarm_high_temperature_2_value', {'value': alarm_value}, room='alarm_high_temperature_2')
 
+
 @_socket.event
 async def request_bomb_1_value(sid):
     alarm_value = await read_opc_variable('bomb_1')
     await asyncio.sleep(0.5)
     await _socket.emit('send_bomb_1_value', {'value': alarm_value}, room='bomb_1')
+
 
 @_socket.event
 async def request_valve_1_value(sid):
@@ -115,31 +117,38 @@ async def request_valve_1_value(sid):
     await asyncio.sleep(0.5)
     await _socket.emit('send_valve_1_value', {'value': alarm_value}, room='valve_1')
 
+
 @_socket.event
 async def request_heater_value(sid):
     alarm_value = await read_opc_variable('heater')
     await asyncio.sleep(0.5)
     await _socket.emit('send_heater_value', {'value': alarm_value}, room='heater')
 
+
 @_socket.event
 async def set_bomb_1_on(sid):
     await activate_bomb_1()
+
 
 @_socket.event
 async def set_bomb_1_off(sid):
     await set_opc_variable('bomb_1', False)
 
+
 @_socket.event
 async def set_valve_1_on(sid):
     await activate_valve_1()
+
 
 @_socket.event
 async def set_valve_1_off(sid):
     await set_opc_variable('valve_1', False)
 
+
 @_socket.event
 async def set_heater_on(sid):
     await activate_heater()
+
 
 @_socket.event
 async def set_heater_off(sid):

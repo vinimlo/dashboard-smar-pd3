@@ -14,10 +14,10 @@ class OpcServer:
         # Add tank mock variables
         self.py_level_1 = self.add_writable_variable("Py_Level_1", 0.00)
         self.py_temperature_1 = self.add_writable_variable(
-            "Py_Temperature_1", 15.00)
+            "Py_Temperature_1", 25.00)
         self.py_flow_1 = self.add_writable_variable("Py_Flow_1", 0.00)
         self.py_temperature_2 = self.add_writable_variable(
-            "Py_Temperature_2", 10.00)
+            "Py_Temperature_2", 25.00)
         self.py_flow_2 = self.add_writable_variable("Py_Flow_2", 0.00)
 
         # Add tank mock alarms
