@@ -20,6 +20,10 @@ class SocketIOService {
     this.variableDict['alarm_high_temperature_1'] = false;
     this.variableDict['alarm_high_temperature_2'] = false;
 
+    this.variableDict['bomb_1'] = false;
+    this.variableDict['valve_1'] = false;
+    this.variableDict['heater'] = false;
+
     this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT);
   }
 
