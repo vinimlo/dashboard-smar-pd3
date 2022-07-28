@@ -1,7 +1,8 @@
 import asyncio
-from aiohttp import web
 import socketio
-from client import read_opc_variable, set_opc_variable
+
+from aiohttp import web
+from client import read_opc_variable, set_opc_variable, activate_bomb_1, activate_valve_1, activate_heater
 
 _socket = socketio.AsyncServer(async_mode='aiohttp', cors_allowed_origins='*')
 app = web.Application()
@@ -21,6 +22,10 @@ def connect(sid, environ):
     _socket.enter_room(sid=sid, room='alarm_low_level_1')
     _socket.enter_room(sid=sid, room='alarm_high_temperature_1')
     _socket.enter_room(sid=sid, room='alarm_high_temperature_2')
+
+    _socket.enter_room(sid=sid, room='bomb_1')
+    _socket.enter_room(sid=sid, room='valve_1')
+    _socket.enter_room(sid=sid, room='heater')
     print("connect ", sid)
 
 
@@ -99,12 +104,46 @@ async def request_alarm_high_temperature_2_value(sid):
     await _socket.emit('send_alarm_high_temperature_2_value', {'value': alarm_value}, room='alarm_high_temperature_2')
 
 @_socket.event
+async def request_bomb_1_value(sid):
+    alarm_value = await read_opc_variable('bomb_1')
+    await asyncio.sleep(0.5)
+    await _socket.emit('send_bomb_1_value', {'value': alarm_value}, room='bomb_1')
+
+@_socket.event
+async def request_valve_1_value(sid):
+    alarm_value = await read_opc_variable('valve_1')
+    await asyncio.sleep(0.5)
+    await _socket.emit('send_valve_1_value', {'value': alarm_value}, room='valve_1')
+
+@_socket.event
+async def request_heater_value(sid):
+    alarm_value = await read_opc_variable('heater')
+    await asyncio.sleep(0.5)
+    await _socket.emit('send_heater_value', {'value': alarm_value}, room='heater')
+
+@_socket.event
 async def set_bomb_1_on(sid):
-    await set_opc_variable('py_bomb_1', True)
+    await activate_bomb_1()
 
 @_socket.event
 async def set_bomb_1_off(sid):
-    await set_opc_variable('py_bomb_1', False)
+    await set_opc_variable('bomb_1', False)
+
+@_socket.event
+async def set_valve_1_on(sid):
+    await activate_valve_1()
+
+@_socket.event
+async def set_valve_1_off(sid):
+    await set_opc_variable('valve_1', False)
+
+@_socket.event
+async def set_heater_on(sid):
+    await activate_heater()
+
+@_socket.event
+async def set_heater_off(sid):
+    await set_opc_variable('heater', False)
 
 if __name__ == "__main__":
     web.run_app(app, port="4113")
