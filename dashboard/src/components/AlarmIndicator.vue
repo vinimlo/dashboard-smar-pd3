@@ -56,7 +56,25 @@ export default defineComponent({
     getVariableValue() {
       setInterval(() => {
         this.alarmValue = SocketIOService.variableDict[this.alarmToRead];
+        if (this.alarmValue === true) {
+          this.playSiren();
+        }
       }, 500);
+    },
+    playSiren() {
+      const path = `/siren.mp3`;
+      const audio = new Audio(path);
+      var playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(_ => {
+          setInterval(() => {
+            audio.pause();
+          }, 900);
+        })
+          .catch(error => {
+            console.log(`playSound error: ${error}`);
+          });
+      }
     }
   }
 });

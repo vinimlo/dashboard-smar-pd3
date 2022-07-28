@@ -40,9 +40,10 @@ export default defineComponent({
           radialBar: {
             startAngle: -90,
             endAngle: 90,
+            offsetX: 0,
+            offsetY: 0,
             track: {
               background: "#262d47",
-
               strokeWidth: '80%',
               margin: 3, // margin is in pixels
               dropShadow: {
@@ -122,9 +123,9 @@ export default defineComponent({
     getVariableValue() {
       setInterval(() => {
         this.variableValue = SocketIOService.variableDict[this.variableToRead];
-        if(this.variableToRead === 'level_1') {
+        if (this.variableToRead === 'level_1') {
           (this.$root?.$refs['lineChart'] as typeof LineChart).appendLevelValue(this.variableValue);
-        } else if(this.variableToRead === 'flow_1') {
+        } else if (this.variableToRead === 'flow_1') {
           (this.$root?.$refs['lineChart'] as typeof LineChart).appendFlowValue(this.variableValue);
         }
       }, 500);
