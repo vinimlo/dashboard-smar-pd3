@@ -1,6 +1,8 @@
 # dashboard-smar-pd3
 Dashboard que utiliza OPC UA e comunicação bidirecional de tempo real aplicado à planta didática pd3-f da smar.
 
+![Arquitetura de comunicação do projeto](architecture.png)
+
 Primeiro, clone o repositório.
 ```bash
 git clone https://github.com/vinimlo/dashboard-smar-pd3.git
