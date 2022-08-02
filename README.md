@@ -1,5 +1,5 @@
 # dashboard-smar-pd3
-Dashboard que utiliza OPC UA e comunicação bidirecional de tempo real aplicado à planta didática pd3-f da smar.
+Dashboard que utiliza OPC UA e comunicação bidirecional de tempo real aplicado à planta didática PD3-F da SMAR.
 
 ![Arquitetura de comunicação do projeto](architecture.png)
 
